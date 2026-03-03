@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>paNhari – Applicant Management, Reimagined</title>
+    <title>paNhari – Every Applicant is a Person</title>
     <meta name="description"
-        content="paNhari is the AI-powered applicant management platform built for modern organizations. Streamline hiring, collaborate in real-time, and find the right people faster." />
+        content="paNhari helps organizations treat every applicant with the care and fairness they deserve. A smarter, more human way to manage applications — so the right people never fall through the cracks." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -1371,6 +1371,203 @@
         .fade-up:nth-child(6) {
             transition-delay: 0.5s;
         }
+
+        /* ── DISPLAY CARDS ─────────────────────── */
+        @keyframes dcFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .display-cards-wrapper {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            place-items: center;
+            margin-bottom: 52px;
+            margin-top: 4px;
+            animation: dcFadeIn 0.7s ease both;
+        }
+
+        .dc-stack {
+            display: grid;
+            grid-template-areas: 'stack';
+            place-items: center;
+        }
+
+        .dc-card {
+            grid-area: stack;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 22rem;
+            height: 9rem;
+            border-radius: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.10);
+            background: rgba(13, 20, 37, 0.72);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 14px 18px;
+            transform: skewY(-8deg);
+            transition: transform 0.7s cubic-bezier(.22, .68, 0, 1.2),
+                filter 0.7s ease,
+                border-color 0.3s;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* right-side gradient fade — matches the ::after in the React version */
+        .dc-card::after {
+            content: '';
+            position: absolute;
+            right: -4px;
+            top: -5%;
+            height: 110%;
+            width: 20rem;
+            background: linear-gradient(to left, #05070f, transparent);
+            pointer-events: none;
+        }
+
+        .dc-card:hover {
+            border-color: rgba(255, 255, 255, 0.22);
+        }
+
+        /* ---------- card rows ---------- */
+        .dc-card-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dc-icon-wrap {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #1e3a8a;
+            flex-shrink: 0;
+        }
+
+        .dc-icon-wrap svg {
+            width: 14px;
+            height: 14px;
+            color: #93c5fd;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .dc-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #7fa8ff;
+            white-space: nowrap;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .dc-desc {
+            font-size: 16px;
+            color: var(--text);
+            white-space: nowrap;
+        }
+
+        .dc-date {
+            font-size: 13px;
+            color: var(--text3);
+        }
+
+        /* ---------- card depth positions ---------- */
+
+        /* Card 1 — furthest back, greyed out with overlay */
+        .dc-card-back {
+            filter: grayscale(100%);
+        }
+
+        .dc-card-back::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 13px;
+            background: rgba(5, 7, 15, 0.5);
+            transition: opacity 0.7s ease;
+            z-index: 2;
+        }
+
+        .dc-card-back:hover::before {
+            opacity: 0;
+        }
+
+        .dc-card-back:hover {
+            transform: skewY(-8deg) translateY(-40px);
+            filter: grayscale(0%);
+        }
+
+        /* Card 2 — middle, greyed out with overlay */
+        .dc-card-mid {
+            transform: skewY(-8deg) translateX(64px) translateY(40px);
+            filter: grayscale(100%);
+        }
+
+        .dc-card-mid::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 13px;
+            background: rgba(5, 7, 15, 0.5);
+            transition: opacity 0.7s ease;
+            z-index: 2;
+        }
+
+        .dc-card-mid:hover::before {
+            opacity: 0;
+        }
+
+        .dc-card-mid:hover {
+            transform: skewY(-8deg) translateX(64px) translateY(4px);
+            filter: grayscale(0%);
+        }
+
+        /* Card 3 — front, fully coloured */
+        .dc-card-front {
+            transform: skewY(-8deg) translateX(128px) translateY(80px);
+        }
+
+        .dc-card-front:hover {
+            transform: skewY(-8deg) translateX(128px) translateY(40px);
+        }
+
+        @media (max-width: 600px) {
+            .dc-card {
+                width: 17rem;
+            }
+
+            .dc-card-mid {
+                transform: skewY(-8deg) translateX(44px) translateY(32px);
+            }
+
+            .dc-card-mid:hover {
+                transform: skewY(-8deg) translateX(44px) translateY(4px);
+            }
+
+            .dc-card-front {
+                transform: skewY(-8deg) translateX(88px) translateY(64px);
+            }
+
+            .dc-card-front:hover {
+                transform: skewY(-8deg) translateX(88px) translateY(36px);
+            }
+        }
     </style>
 </head>
 
@@ -1380,7 +1577,8 @@
     <header>
         <div class="nav-inner">
             <a href="#" class="logo">
-                <img src="assets/paNhari%20Logo.png" alt="paNhari" height="34" style="background: white; padding: 4px 12px; border-radius: 6px;" />
+                <img src="assets/paNhari%20Logo.png" alt="paNhari" height="34"
+                    style="background: white; padding: 4px 12px; border-radius: 6px;" />
             </a>
             <nav>
                 <a href="#features">Features</a>
@@ -1406,18 +1604,84 @@
 
         <div class="hero-badge">
             <span class="dot"></span>
-            New &mdash; AI-Powered Application Sorting is live
+            Every application represents a real person with real hopes
         </div>
 
         <h1>
-            Applicant management<br />
-            for <span class="gradient-text">modern organizations</span>
+            Behind every application<br />
+            is a <span class="gradient-text">person who cares</span>
         </h1>
 
         <p class="hero-sub">
-            Unify your entire hiring pipeline in one beautifully intelligent platform.
-            Move faster, collaborate smarter, and never lose a great candidate again.
+            People put their hopes into every application they send. paNhari helps your organization
+            honour that — with a fair, transparent, and human process that finds the right fit every time.
         </p>
+
+        <!-- ── DISPLAY CARDS ─────────────────────────────── -->
+        <div class="display-cards-wrapper" aria-hidden="true">
+            <div class="dc-stack">
+
+                <!-- Card 1 — back (greyed) -->
+                <div class="dc-card dc-card-back">
+                    <div class="dc-card-row">
+                        <span class="dc-icon-wrap">
+                            <!-- Sparkles icon -->
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5L12 2z" />
+                                <path d="M5 15l.9 2.7L8.6 19l-2.7.9L5 22.6l-.9-2.7L1.4 19l2.7-.9L5 15z" />
+                            </svg>
+                        </span>
+                        <span class="dc-title">Shortlisted</span>
+                    </div>
+                    <div class="dc-card-row">
+                        <span class="dc-desc">Amara Osei — Fund Manager</span>
+                    </div>
+                    <div class="dc-card-row">
+                        <span class="dc-date">3 days ago</span>
+                    </div>
+                </div>
+
+                <!-- Card 2 — middle (greyed) -->
+                <div class="dc-card dc-card-mid">
+                    <div class="dc-card-row">
+                        <span class="dc-icon-wrap">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5L12 2z" />
+                                <path d="M5 15l.9 2.7L8.6 19l-2.7.9L5 22.6l-.9-2.7L1.4 19l2.7-.9L5 15z" />
+                            </svg>
+                        </span>
+                        <span class="dc-title">Application Received</span>
+                    </div>
+                    <div class="dc-card-row">
+                        <span class="dc-desc">Chidi Nwosu — Data Analyst</span>
+                    </div>
+                    <div class="dc-card-row">
+                        <span class="dc-date">1 day ago</span>
+                    </div>
+                </div>
+
+                <!-- Card 3 — front (full colour) -->
+                <div class="dc-card dc-card-front">
+                    <div class="dc-card-row">
+                        <span class="dc-icon-wrap">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5L12 2z" />
+                                <path d="M5 15l.9 2.7L8.6 19l-2.7.9L5 22.6l-.9-2.7L1.4 19l2.7-.9L5 15z" />
+                            </svg>
+                        </span>
+                        <span class="dc-title">Interview Scheduled</span>
+                    </div>
+                    <div class="dc-card-row">
+                        <span class="dc-desc">Fatima Diallo — Product Lead</span>
+                    </div>
+                    <div class="dc-card-row">
+                        <span class="dc-date">Just now</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- ─────────────────────────────────────────────── -->
 
         <div class="hero-cta">
             <button class="btn-primary">Start Free Trial &rarr;</button>
@@ -1427,22 +1691,22 @@
         <div class="hero-stats">
             <div class="stat">
                 <div class="stat-number">500+</div>
-                <div class="stat-label">Organizations</div>
+                <div class="stat-label">Organizations who put people first</div>
             </div>
             <div class="stat-divider"></div>
             <div class="stat">
                 <div class="stat-number">2.4M</div>
-                <div class="stat-label">Applicants processed</div>
+                <div class="stat-label">Applicants treated with care</div>
             </div>
             <div class="stat-divider"></div>
             <div class="stat">
                 <div class="stat-number">68%</div>
-                <div class="stat-label">Faster hiring cycle</div>
+                <div class="stat-label">Faster responses to applicants</div>
             </div>
             <div class="stat-divider"></div>
             <div class="stat">
                 <div class="stat-number">4.9★</div>
-                <div class="stat-label">Customer rating</div>
+                <div class="stat-label">Loved by teams across Africa</div>
             </div>
         </div>
     </section>
@@ -1452,7 +1716,9 @@
         <div class="preview-wrapper">
             <div class="preview-glow"></div>
             <div class="preview-frame" style="padding: 10px; background: rgba(255, 255, 255, 0.05);">
-                <img style="width: 100%; height: auto; border-radius: 12px; display: block;" src="assets/Application%20Review%20&%20Selection%20Governance%20System.png" alt="paNhari Dashboard" />
+                <img style="width: 100%; height: auto; border-radius: 12px; display: block;"
+                    src="assets/Application%20Review%20&%20Selection%20Governance%20System.png"
+                    alt="paNhari Dashboard" />
             </div>
         </div>
     </div>
@@ -1460,7 +1726,7 @@
     <!-- ── LOGOS ─────────────────────────────────────────────── -->
     <div class="logos-section">
         <div style="max-width:1200px; margin:0 auto;">
-            <p class="logos-label">Trusted by forward-thinking organizations worldwide</p>
+            <p class="logos-label">Trusted by organizations that believe people deserve better</p>
             <div class="logos-row">
                 <span class="logo-item">Accenture</span>
                 <span class="logo-item">Deloitte</span>
@@ -1475,47 +1741,47 @@
     <!-- ── FEATURES ──────────────────────────────────────────── -->
     <section class="section-pad" id="features">
         <div class="section-inner">
-            <div class="section-label">Platform Features</div>
-            <h2 class="section-title">Everything your team needs<br />to hire with confidence</h2>
-            <p class="section-sub">From intake to offer letter, every critical step is handled with elegance and
-                precision.</p>
+            <div class="section-label">Built for People</div>
+            <h2 class="section-title">Tools that treat applicants<br />the way they deserve</h2>
+            <p class="section-sub">From the first application to the final decision, every step is designed to be fair,
+                clear, and respectful — for your team and the people you're considering.</p>
 
             <div class="features-grid">
                 <div class="feature-card fade-up">
                     <div class="feature-icon icon-blue">📊</div>
-                    <h3>Centralized Dashboard</h3>
-                    <p>View every applicant in one secure, searchable space. Sort, filter, and rank with zero latency
-                        across your entire pipeline.</p>
+                    <h3>One Place for Every Person</h3>
+                    <p>Every applicant, every story, in one clear view. Your team stays organized so no one gets lost in
+                        a spreadsheet or forgotten in an inbox.</p>
                 </div>
                 <div class="feature-card fade-up">
                     <div class="feature-icon icon-purple">⚡</div>
-                    <h3>Automated Pipelines</h3>
-                    <p>Drag-and-drop stages, automated status transitions, and trigger-based actions keep your process
-                        moving without manual effort.</p>
+                    <h3>Processes That Move as Fast as People Do</h3>
+                    <p>Applicants are waiting to hear back. Automated stages and smart transitions keep your process
+                        moving, so no one is left in the dark longer than they need to be.</p>
                 </div>
                 <div class="feature-card fade-up">
                     <div class="feature-icon icon-green">🤖</div>
-                    <h3>AI-Powered Sorting</h3>
-                    <p>Our AI ranks applicants by fit score, flags standout candidates, and surfaces insights your team
-                        would otherwise miss.</p>
+                    <h3>AI That Sees the Full Picture</h3>
+                    <p>Our AI surfaces strong applicants who might otherwise be overlooked. It doesn't replace human
+                        judgment — it makes sure every person gets a fair look.</p>
                 </div>
                 <div class="feature-card fade-up">
                     <div class="feature-icon icon-orange">✉️</div>
-                    <h3>Integrated Messaging</h3>
-                    <p>Send personalized bulk emails via Gmail or Outlook natively. Automated follow-ups keep candidates
-                        warm without extra work.</p>
+                    <h3>Communication That Feels Personal</h3>
+                    <p>Send warm, personalized updates at scale. Because nothing is more frustrating than applying and
+                        hearing nothing — your applicants deserve better than silence.</p>
                 </div>
                 <div class="feature-card fade-up">
                     <div class="feature-icon icon-pink">👥</div>
-                    <h3>Team Collaboration</h3>
-                    <p>Assign reviewers, leave comments, set scores, and see real-time updates. Decisions happen faster
-                        when everyone is aligned.</p>
+                    <h3>Decisions Made Together</h3>
+                    <p>Your whole team can weigh in with notes, scores, and context in one shared space. Better
+                        collaboration leads to decisions everyone can stand behind.</p>
                 </div>
                 <div class="feature-card fade-up">
                     <div class="feature-icon icon-cyan">📈</div>
-                    <h3>Analytics & Reports</h3>
-                    <p>Track time-to-hire, funnel drop-off, reviewer velocity, and source quality. Know what's working
-                        and double down on it.</p>
+                    <h3>Insight Into What's Working</h3>
+                    <p>Understand where great candidates come from, where your process slows down, and how to make the
+                        experience better — for your team and your applicants.</p>
                 </div>
             </div>
         </div>
@@ -1524,40 +1790,58 @@
     <!-- ── PLATFORM SHOWCASE ─────────────────────────────────── -->
     <section class="section-pad" id="showcase" style="border-top: 1px solid var(--border); background: var(--bg2);">
         <div class="section-inner">
-            <div class="section-label">Deep Dive</div>
-            <h2 class="section-title">See your data like never before</h2>
-            <p class="section-sub" style="margin-bottom: 60px;">Powerful tools designed to give you complete visibility and control over your entire process.</p>
+            <div class="section-label">Inside paNhari</div>
+            <h2 class="section-title">See the people, not just the data</h2>
+            <p class="section-sub" style="margin-bottom: 60px;">Powerful tools built to help your team make thoughtful,
+                well-informed decisions — about real people, not just entries in a table.</p>
 
             <!-- Row 1 -->
-            <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center; margin-bottom: 80px;" class="fade-up">
+            <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center; margin-bottom: 80px;"
+                class="fade-up">
                 <div style="flex: 1; min-width: 300px;">
-                    <h3 style="font-size: 32px; font-weight: 800; color: var(--text); margin-bottom: 16px;">Everything in one place</h3>
-                    <p style="color: var(--text2); line-height: 1.7;">Manage student records, track cohorts, and oversee working groups effortlessly. Export data instantly or dig deeper with our built-in exploration tools.</p>
+                    <h3 style="font-size: 32px; font-weight: 800; color: var(--text); margin-bottom: 16px;">Everyone in
+                        one place</h3>
+                    <p style="color: var(--text2); line-height: 1.7;">Every applicant, student, and cohort member —
+                        visible, searchable, and never lost. Your team can focus on the people who matter instead of
+                        hunting through spreadsheets and email chains.</p>
                 </div>
-                <div style="flex: 1.5; min-width: 300px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
-                    <img src="assets/Student%20Management%20&%20Cohort%20Oversight%20System.png" alt="Student Management" style="width: 100%; height: auto; display: block;" />
+                <div
+                    style="flex: 1.5; min-width: 300px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
+                    <img src="assets/Student%20Management%20&%20Cohort%20Oversight%20System.png"
+                        alt="Student Management" style="width: 100%; height: auto; display: block;" />
                 </div>
             </div>
 
             <!-- Row 2 -->
-            <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center; margin-bottom: 80px; flex-direction: row-reverse;" class="fade-up">
+            <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center; margin-bottom: 80px; flex-direction: row-reverse;"
+                class="fade-up">
                 <div style="flex: 1; min-width: 300px;">
-                    <h3 style="font-size: 32px; font-weight: 800; color: var(--text); margin-bottom: 16px;">Ask questions, get answers</h3>
-                    <p style="color: var(--text2); line-height: 1.7;">Stop wrestling with spreadsheets. Just ask our AI-powered chatbot questions about your applicant data and instantly discover powerful insights, trends, and demographics.</p>
+                    <h3 style="font-size: 32px; font-weight: 800; color: var(--text); margin-bottom: 16px;">Answers when
+                        you need them</h3>
+                    <p style="color: var(--text2); line-height: 1.7;">Your team shouldn't have to struggle with
+                        spreadsheets to understand who applied. Just ask a question in plain language — our AI gives you
+                        instant insight so you can focus on the human decisions that matter.</p>
                 </div>
-                <div style="flex: 1.5; min-width: 300px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
-                    <img src="assets/AI-Powered%20Data%20Exploration%20Chatbot.png" alt="AI Data Exploration" style="width: 100%; height: auto; display: block;" />
+                <div
+                    style="flex: 1.5; min-width: 300px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
+                    <img src="assets/AI-Powered%20Data%20Exploration%20Chatbot.png" alt="AI Data Exploration"
+                        style="width: 100%; height: auto; display: block;" />
                 </div>
             </div>
 
             <!-- Row 3 -->
             <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: center;" class="fade-up">
                 <div style="flex: 1; min-width: 300px;">
-                    <h3 style="font-size: 32px; font-weight: 800; color: var(--text); margin-bottom: 16px;">Role-Based Access Control</h3>
-                    <p style="color: var(--text2); line-height: 1.7;">Keep data secure while empowering your team. Define fine-grained permissions for reviewers, decision-makers, and back-office staff with our powerful RBAC system.</p>
+                    <h3 style="font-size: 32px; font-weight: 800; color: var(--text); margin-bottom: 16px;">The right
+                        people, seeing the right things</h3>
+                    <p style="color: var(--text2); line-height: 1.7;">Applicant data is personal and sensitive. Our
+                        access control tools ensure that every person's information is protected — and that reviewers
+                        only see what they need to make fair decisions.</p>
                 </div>
-                <div style="flex: 1.5; min-width: 300px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
-                    <img src="assets/Role-Based%20Access%20Control%20(RBAC)%20&%20Data%20Governance.png" alt="Role-Based Access Control" style="width: 100%; height: auto; display: block;" />
+                <div
+                    style="flex: 1.5; min-width: 300px; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); box-shadow: 0 20px 40px rgba(0,0,0,0.5);">
+                    <img src="assets/Role-Based%20Access%20Control%20(RBAC)%20&%20Data%20Governance.png"
+                        alt="Role-Based Access Control" style="width: 100%; height: auto; display: block;" />
                 </div>
             </div>
         </div>
@@ -1567,36 +1851,37 @@
     <section class="how-section section-pad" id="how">
         <div class="section-inner">
             <div class="section-label">How It Works</div>
-            <h2 class="section-title">Up and running<br />in minutes</h2>
-            <p class="section-sub">No lengthy onboarding. No IT tickets. Your team is operational from day one.</p>
+            <h2 class="section-title">A process that works<br />for everyone</h2>
+            <p class="section-sub">Simple for your team to set up. Respectful and clear for every person who applies.
+                That's the experience paNhari is built to deliver.</p>
 
             <div class="steps">
                 <div class="step">
                     <div class="step-number">01</div>
-                    <h3>Create your intake form</h3>
-                    <p>Build a branded application form in minutes. Collect exactly the data you need — no more, no
-                        less.</p>
+                    <h3>Design a form worthy of their time</h3>
+                    <p>Build a clean, branded intake form in minutes. Ask only what you truly need — showing applicants
+                        you respect the effort they're putting in.</p>
                     <div class="step-arrow">→</div>
                 </div>
                 <div class="step">
                     <div class="step-number">02</div>
-                    <h3>Applications flow in automatically</h3>
-                    <p>Share your link or embed on your site. Every submission is captured, organized, and ready for
-                        review instantly.</p>
+                    <h3>Every applicant arrives safely</h3>
+                    <p>Share your link or embed it on your site. The moment someone submits, they're organized and
+                        waiting — nothing getting lost, nothing slipping through.</p>
                     <div class="step-arrow">→</div>
                 </div>
                 <div class="step">
                     <div class="step-number">03</div>
-                    <h3>AI scores & your team reviews</h3>
-                    <p>Our AI provides instant fit scores while your reviewers collaborate with notes and ratings in a
-                        unified view.</p>
+                    <h3>AI assists, humans decide</h3>
+                    <p>Our AI highlights strong fits so your reviewers can focus their energy. The final call is always
+                        yours — made with more context, more confidence, and more care.</p>
                     <div class="step-arrow">→</div>
                 </div>
                 <div class="step">
                     <div class="step-number">04</div>
-                    <h3>Close with confidence</h3>
-                    <p>Send acceptance or rejection emails in bulk, update statuses, and generate full audit reports in
-                        one click.</p>
+                    <h3>End with dignity for everyone</h3>
+                    <p>Send warm, timely updates to every applicant — accepted or not. A respectful close leaves a
+                        lasting impression and keeps great people coming back.</p>
                 </div>
             </div>
         </div>
@@ -1605,14 +1890,14 @@
     <!-- ── TESTIMONIALS ──────────────────────────────────────── -->
     <section class="section-pad" id="testimonials">
         <div class="section-inner">
-            <div class="section-label">Customer Stories</div>
-            <h2 class="section-title">Loved by teams<br />across Africa &amp; beyond</h2>
+            <div class="section-label">Real Stories</div>
+            <h2 class="section-title">Teams who believe<br />people deserve better</h2>
 
             <div class="testimonials-grid">
                 <div class="testimonial-card fade-up">
                     <div class="stars">★★★★★</div>
-                    <blockquote>"We cut our hiring cycle by nearly half. The AI sorting alone saved us weeks of manual
-                        shortlisting work. It's become indispensable."</blockquote>
+                    <blockquote>"For the first time, our applicants actually hear back from us quickly. paNhari didn't
+                        just save us time — it changed the experience for every person who applied to us."</blockquote>
                     <div class="testimonial-author">
                         <div class="testimonial-avatar" style="background:linear-gradient(135deg,#4f7cff,#7b5cf5);">TM
                         </div>
@@ -1624,8 +1909,8 @@
                 </div>
                 <div class="testimonial-card fade-up">
                     <div class="stars">★★★★★</div>
-                    <blockquote>"paNhari gave our recruitment committee a single source of truth. No more email chains,
-                        no more spreadsheets. Finally, a tool built for us."</blockquote>
+                    <blockquote>"We were drowning in spreadsheets and losing good people in the chaos. paNhari brought
+                        order — and more importantly, it helped us be fair. Every applicant gets seen now."</blockquote>
                     <div class="testimonial-author">
                         <div class="testimonial-avatar" style="background:linear-gradient(135deg,#00d4aa,#4f7cff);">FN
                         </div>
@@ -1637,8 +1922,8 @@
                 </div>
                 <div class="testimonial-card fade-up">
                     <div class="stars">★★★★★</div>
-                    <blockquote>"The onboarding took less than a day. By week one our team was fully operational and
-                        applicants were getting faster responses than ever."</blockquote>
+                    <blockquote>"What stood out most wasn't the speed — it was the humanity. Our applicants told us they
+                        appreciated actually hearing back. That hadn't happened before paNhari."</blockquote>
                     <div class="testimonial-author">
                         <div class="testimonial-avatar" style="background:linear-gradient(135deg,#ff8c00,#e879f9);">KD
                         </div>
@@ -1656,8 +1941,8 @@
     <section class="section-pad" id="pricing" style="background:var(--bg2); border-top:1px solid var(--border);">
         <div class="section-inner">
             <div class="section-label">Pricing</div>
-            <h2 class="section-title">Simple, transparent<br />pricing for any team</h2>
-            <p class="section-sub">No hidden fees. No surprises. Scale as you grow.</p>
+            <h2 class="section-title">Straightforward pricing<br />so you can just focus on people</h2>
+            <p class="section-sub">No hidden fees. No surprises. Start free and grow at your own pace.</p>
 
             <div class="pricing-grid">
                 <!-- Starter -->
@@ -1665,8 +1950,8 @@
                     <div class="pricing-name">Starter</div>
                     <div class="pricing-price"><sup>$</sup>0</div>
                     <div class="pricing-period">Free forever &mdash; no credit card</div>
-                    <div class="pricing-desc">Perfect for small teams running their first structured hiring process.
-                    </div>
+                    <div class="pricing-desc">Great for teams just getting started — build a process that's organized
+                        and respectful from day one.</div>
                     <div class="pricing-divider"></div>
                     <ul class="pricing-features">
                         <li>Up to 3 active job posts</li>
@@ -1683,8 +1968,8 @@
                     <div class="pricing-name">Pro</div>
                     <div class="pricing-price"><sup>$</sup>49</div>
                     <div class="pricing-period">per seat / month, billed annually</div>
-                    <div class="pricing-desc">For growing organizations that need power, automation, and team
-                        collaboration.</div>
+                    <div class="pricing-desc">For organizations ready to give every applicant the experience they
+                        deserve — at scale, without burning out your team.</div>
                     <div class="pricing-divider"></div>
                     <ul class="pricing-features">
                         <li>Unlimited job posts</li>
@@ -1702,8 +1987,8 @@
                     <div class="pricing-name">Enterprise</div>
                     <div class="pricing-price" style="font-size:38px;">Custom</div>
                     <div class="pricing-period">Tailored to your organization</div>
-                    <div class="pricing-desc">For large organizations with compliance requirements, SSO, and dedicated
-                        support needs.</div>
+                    <div class="pricing-desc">For large organizations that need enterprise-grade security, compliance,
+                        and a dedicated partner in building the right process.</div>
                     <div class="pricing-divider"></div>
                     <ul class="pricing-features">
                         <li>Everything in Pro</li>
@@ -1725,8 +2010,9 @@
         <div class="cta-blob1"></div>
         <div class="cta-blob2"></div>
         <div class="cta-inner">
-            <h2>Ready to transform<br />your hiring process?</h2>
-            <p>Join hundreds of organizations using paNhari to hire smarter, faster, and more fairly.</p>
+            <h2>Great people are waiting<br />to hear from you</h2>
+            <p>Every day you wait, someone who could have been perfect for your team is still holding their breath. Join
+                hundreds of organizations using paNhari to build a process people actually feel good about.</p>
             <div class="cta-buttons">
                 <button class="btn-primary">Start your free trial &rarr;</button>
                 <button class="btn-secondary">Book a demo</button>
@@ -1742,10 +2028,11 @@
             <div class="footer-top">
                 <div class="footer-brand">
                     <a href="#" class="logo">
-                        <img src="assets/paNhari%20Logo.png" alt="paNhari" height="34" style="background: white; padding: 4px 12px; border-radius: 6px;" />
+                        <img src="assets/paNhari%20Logo.png" alt="paNhari" height="34"
+                            style="background: white; padding: 4px 12px; border-radius: 6px;" />
                     </a>
-                    <p>An intelligent applicant management platform built for modern organizations across Africa and
-                        beyond.</p>
+                    <p>We built paNhari because every applicant is a person — and every person deserves a fair,
+                        dignified, and timely response.</p>
                 </div>
                 <div class="footer-col">
                     <h4>Product</h4>
