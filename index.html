@@ -765,89 +765,225 @@
             line-height: 1.7;
         }
 
-        /* ── FEATURES GRID ─────────────────────── */
+        /* ── FEATURES BENTO GRID ────────────────── */
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: 1fr;
+            gap: 16px;
             margin-top: 60px;
         }
 
-        .feature-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 32px;
-            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-            position: relative;
-            overflow: hidden;
+        @media (min-width: 768px) {
+            .features-grid {
+                grid-template-columns: repeat(12, 1fr);
+                grid-template-rows: auto auto auto;
+            }
+
+            .feat-1 {
+                grid-column: 1 / 7;
+                grid-row: 1;
+            }
+
+            .feat-2 {
+                grid-column: 7 / 13;
+                grid-row: 1;
+            }
+
+            .feat-3 {
+                grid-column: 1 / 7;
+                grid-row: 2;
+            }
+
+            .feat-4 {
+                grid-column: 7 / 13;
+                grid-row: 2;
+            }
+
+            .feat-5 {
+                grid-column: 1 / 7;
+                grid-row: 3;
+            }
+
+            .feat-6 {
+                grid-column: 7 / 13;
+                grid-row: 3;
+            }
         }
 
-        .feature-card::after {
-            content: '';
+        @media (min-width: 1180px) {
+            .features-grid {
+                grid-template-rows: auto auto;
+            }
+
+            .feat-1 {
+                grid-column: 1 / 5;
+                grid-row: 1;
+            }
+
+            .feat-2 {
+                grid-column: 5 / 9;
+                grid-row: 1 / 3;
+                min-height: 340px;
+            }
+
+            .feat-3 {
+                grid-column: 9 / 13;
+                grid-row: 1;
+            }
+
+            .feat-4 {
+                grid-column: 1 / 5;
+                grid-row: 2;
+            }
+
+            .feat-5 {
+                grid-column: 9 / 13;
+                grid-row: 2;
+            }
+
+            .feat-6 {
+                grid-column: 1 / 13;
+                grid-row: 3;
+            }
+        }
+
+        /* ── FEATURE CARD BASE ─────────────────── */
+        .feature-card {
+            position: relative;
+            border-radius: 20px;
+            border: 0.75px solid var(--border);
+            padding: 10px;
+            min-height: 14rem;
+            --active: 0;
+            --start: 0;
+            --spread: 40;
+            --glow-bw: 3px;
+        }
+
+        /* ── GLOWING BORDER EFFECT ─────────────── */
+        .fc-glow {
+            pointer-events: none;
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(79, 124, 255, 0.05), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(79, 124, 255, 0.35);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(79, 124, 255, 0.1);
-        }
-
-        .feature-card:hover::after {
+            border-radius: inherit;
             opacity: 1;
         }
 
-        .feature-icon {
-            width: 52px;
-            height: 52px;
+        .fc-glow::after {
+            content: '';
+            border-radius: inherit;
+            position: absolute;
+            inset: calc(-1 * var(--glow-bw));
+            border: var(--glow-bw) solid transparent;
+            background:
+                radial-gradient(circle, #4f7cff 10%, #4f7cff00 20%),
+                radial-gradient(circle at 40% 40%, #7b5cf5 5%, #7b5cf500 15%),
+                radial-gradient(circle at 60% 60%, #00d4aa 10%, #00d4aa00 20%),
+                radial-gradient(circle at 40% 60%, #4f7cff 10%, #4f7cff00 20%),
+                repeating-conic-gradient(from 236.84deg at 50% 50%,
+                    #4f7cff 0%,
+                    #7b5cf5 calc(25% / 5),
+                    #00d4aa calc(50% / 5),
+                    #4f7cff calc(75% / 5),
+                    #4f7cff calc(100% / 5));
+            background-attachment: fixed;
+            opacity: var(--active);
+            transition: opacity 0.3s;
+            -webkit-mask-clip: padding-box, border-box;
+            mask-clip: padding-box, border-box;
+            -webkit-mask-composite: intersect;
+            mask-composite: intersect;
+            -webkit-mask-image:
+                linear-gradient(#0000, #0000),
+                conic-gradient(from calc((var(--start) - var(--spread)) * 1deg),
+                    #00000000 0deg,
+                    #fff,
+                    #00000000 calc(var(--spread) * 2deg));
+            mask-image:
+                linear-gradient(#0000, #0000),
+                conic-gradient(from calc((var(--start) - var(--spread)) * 1deg),
+                    #00000000 0deg,
+                    #fff,
+                    #00000000 calc(var(--spread) * 2deg));
+        }
+
+        /* ── FEATURE CARD INNER ────────────────── */
+        .fc-inner {
+            position: relative;
+            height: 100%;
+            min-height: 12rem;
             border-radius: 14px;
-            margin-bottom: 24px;
+            border: 0.75px solid var(--border);
+            background: var(--surface);
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 20px;
+            overflow: hidden;
+            box-shadow: 0 1px 27px rgba(45, 45, 45, 0.18);
+            transition: border-color 0.3s;
+        }
+
+        /* ── FEATURE ICON (SVG) ───────────────── */
+        .fc-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            border: 0.75px solid var(--border);
+            background: var(--surface2);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            flex-shrink: 0;
         }
 
-        .icon-blue {
-            background: rgba(79, 124, 255, 0.15);
+        .fc-icon svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--text2);
+            fill: none;
+            stroke-width: 1.6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
-        .icon-purple {
-            background: rgba(123, 92, 245, 0.15);
+        .fc-body {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .icon-green {
-            background: rgba(0, 212, 170, 0.15);
-        }
-
-        .icon-orange {
-            background: rgba(255, 140, 0, 0.15);
-        }
-
-        .icon-pink {
-            background: rgba(255, 100, 150, 0.15);
-        }
-
-        .icon-cyan {
-            background: rgba(0, 200, 240, 0.15);
-        }
-
-        .feature-card h3 {
-            font-size: 18px;
+        .fc-body h3 {
+            font-size: 20px;
             font-weight: 700;
+            letter-spacing: -0.04em;
             color: var(--text);
-            margin-bottom: 10px;
+            line-height: 1.3;
         }
 
-        .feature-card p {
+        @media (min-width: 768px) {
+            .fc-body h3 {
+                font-size: 22px;
+            }
+        }
+
+        .fc-body p {
             font-size: 14px;
+            line-height: 1.6;
             color: var(--text2);
-            line-height: 1.7;
+        }
+
+        @media (min-width: 768px) {
+            .fc-body p {
+                font-size: 15px;
+            }
+        }
+
+        /* ── Tall middle card label ─────────────── */
+        .feat-2 .fc-inner {
+            justify-content: space-between;
+            gap: 32px;
         }
 
         /* ── HOW IT WORKS ──────────────────────── */
@@ -1746,44 +1882,127 @@
             <p class="section-sub">From the first application to the final decision, every step is designed to be fair,
                 clear, and respectful — for your team and the people you're considering.</p>
 
-            <div class="features-grid">
-                <div class="feature-card fade-up">
-                    <div class="feature-icon icon-blue">📊</div>
-                    <h3>One Place for Every Person</h3>
-                    <p>Every applicant, every story, in one clear view. Your team stays organized so no one gets lost in
-                        a spreadsheet or forgotten in an inbox.</p>
-                </div>
-                <div class="feature-card fade-up">
-                    <div class="feature-icon icon-purple">⚡</div>
-                    <h3>Processes That Move as Fast as People Do</h3>
-                    <p>Applicants are waiting to hear back. Automated stages and smart transitions keep your process
-                        moving, so no one is left in the dark longer than they need to be.</p>
-                </div>
-                <div class="feature-card fade-up">
-                    <div class="feature-icon icon-green">🤖</div>
-                    <h3>AI That Sees the Full Picture</h3>
-                    <p>Our AI surfaces strong applicants who might otherwise be overlooked. It doesn't replace human
-                        judgment — it makes sure every person gets a fair look.</p>
-                </div>
-                <div class="feature-card fade-up">
-                    <div class="feature-icon icon-orange">✉️</div>
-                    <h3>Communication That Feels Personal</h3>
-                    <p>Send warm, personalized updates at scale. Because nothing is more frustrating than applying and
-                        hearing nothing — your applicants deserve better than silence.</p>
-                </div>
-                <div class="feature-card fade-up">
-                    <div class="feature-icon icon-pink">👥</div>
-                    <h3>Decisions Made Together</h3>
-                    <p>Your whole team can weigh in with notes, scores, and context in one shared space. Better
-                        collaboration leads to decisions everyone can stand behind.</p>
-                </div>
-                <div class="feature-card fade-up">
-                    <div class="feature-icon icon-cyan">📈</div>
-                    <h3>Insight Into What's Working</h3>
-                    <p>Understand where great candidates come from, where your process slows down, and how to make the
-                        experience better — for your team and your applicants.</p>
-                </div>
-            </div>
+            <ul class="features-grid">
+
+                <!-- Card 1 ─ One Place -->
+                <li class="feature-card feat-1">
+                    <div class="fc-glow"></div>
+                    <div class="fc-inner">
+                        <div class="fc-icon">
+                            <!-- Layout / grid icon -->
+                            <svg viewBox="0 0 24 24">
+                                <rect x="3" y="3" width="7" height="7" rx="1" />
+                                <rect x="14" y="3" width="7" height="7" rx="1" />
+                                <rect x="3" y="14" width="7" height="7" rx="1" />
+                                <rect x="14" y="14" width="7" height="7" rx="1" />
+                            </svg>
+                        </div>
+                        <div class="fc-body">
+                            <h3>One Place for Every Person</h3>
+                            <p>Every applicant, every story, in one clear view. Your team stays organized so no one gets
+                                lost in a spreadsheet or forgotten in an inbox.</p>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Card 2 ─ AI (tall card) -->
+                <li class="feature-card feat-2">
+                    <div class="fc-glow"></div>
+                    <div class="fc-inner">
+                        <div class="fc-icon">
+                            <!-- Eye / AI icon -->
+                            <svg viewBox="0 0 24 24">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                <circle cx="12" cy="12" r="3" />
+                            </svg>
+                        </div>
+                        <div class="fc-body">
+                            <h3>AI That Sees the Full Picture</h3>
+                            <p>Our AI surfaces strong applicants who might otherwise be overlooked. It doesn’t replace
+                                human judgment — it makes sure every person gets a fair look.</p>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Card 3 ─ Processes -->
+                <li class="feature-card feat-3">
+                    <div class="fc-glow"></div>
+                    <div class="fc-inner">
+                        <div class="fc-icon">
+                            <!-- Zap icon -->
+                            <svg viewBox="0 0 24 24">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                            </svg>
+                        </div>
+                        <div class="fc-body">
+                            <h3>Processes That Move as Fast as People Do</h3>
+                            <p>Applicants are waiting to hear back. Automated stages keep your process moving so no one
+                                is left in the dark longer than necessary.</p>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Card 4 ─ Communication -->
+                <li class="feature-card feat-4">
+                    <div class="fc-glow"></div>
+                    <div class="fc-inner">
+                        <div class="fc-icon">
+                            <!-- Message icon -->
+                            <svg viewBox="0 0 24 24">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                            </svg>
+                        </div>
+                        <div class="fc-body">
+                            <h3>Communication That Feels Personal</h3>
+                            <p>Send warm, personalized updates at scale. Your applicants deserve better than silence —
+                                and paNhari makes sure they get it.</p>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Card 5 ─ Decisions -->
+                <li class="feature-card feat-5">
+                    <div class="fc-glow"></div>
+                    <div class="fc-inner">
+                        <div class="fc-icon">
+                            <!-- Users icon -->
+                            <svg viewBox="0 0 24 24">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                                <circle cx="9" cy="7" r="4" />
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                            </svg>
+                        </div>
+                        <div class="fc-body">
+                            <h3>Decisions Made Together</h3>
+                            <p>Your whole team can weigh in with notes, scores, and context in one shared space. Better
+                                collaboration, better decisions.</p>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Card 6 ─ Insight (full-width) -->
+                <li class="feature-card feat-6">
+                    <div class="fc-glow"></div>
+                    <div class="fc-inner"
+                        style="flex-direction: row; align-items: center; gap: 40px; min-height: 10rem;">
+                        <div class="fc-icon" style="flex-shrink: 0;">
+                            <!-- Bar chart icon -->
+                            <svg viewBox="0 0 24 24">
+                                <line x1="18" y1="20" x2="18" y2="10" />
+                                <line x1="12" y1="20" x2="12" y2="4" />
+                                <line x1="6" y1="20" x2="6" y2="14" />
+                            </svg>
+                        </div>
+                        <div class="fc-body">
+                            <h3>Insight Into What’s Working</h3>
+                            <p>Understand where great candidates come from, where your process slows down, and how to
+                                make the experience better — for your team and every applicant you serve.</p>
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
         </div>
     </section>
 
@@ -2081,6 +2300,61 @@
             entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
         }, { threshold: 0.12 });
         document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+        // ── GLOWING EFFECT ──────────────────────────────────
+        (function () {
+            const cards = document.querySelectorAll('.feature-card');
+            const PROXIMITY = 64;
+            const LERP_SPEED = 0.09;
+
+            // Per-card angle state
+            const state = new Map();
+            cards.forEach(c => state.set(c, { current: 0, target: 0 }));
+
+            let rafId = null;
+
+            function shortDiff(from, to) {
+                return ((to - from + 180) % 360) - 180;
+            }
+
+            function tick() {
+                let needMore = false;
+                state.forEach((s, card) => {
+                    const diff = shortDiff(s.current, s.target);
+                    if (Math.abs(diff) > 0.15) {
+                        s.current += diff * LERP_SPEED;
+                        card.style.setProperty('--start', s.current);
+                        needMore = true;
+                    }
+                });
+                rafId = needMore ? requestAnimationFrame(tick) : null;
+            }
+
+            function onMove(e) {
+                const mx = e.clientX, my = e.clientY;
+                cards.forEach(card => {
+                    const r = card.getBoundingClientRect();
+                    const cx = r.left + r.width / 2;
+                    const cy = r.top + r.height / 2;
+                    const inZone = mx > r.left - PROXIMITY && mx < r.right + PROXIMITY
+                        && my > r.top - PROXIMITY && my < r.bottom + PROXIMITY;
+                    const tooClose = Math.hypot(mx - cx, my - cy) < 0.01 * 0.5 * Math.min(r.width, r.height);
+
+                    if (!inZone || tooClose) {
+                        card.style.setProperty('--active', '0');
+                        return;
+                    }
+                    card.style.setProperty('--active', '1');
+                    const angle = Math.atan2(my - cy, mx - cx) * 180 / Math.PI + 90;
+                    const s = state.get(card);
+                    s.target = s.current + shortDiff(s.current, angle);
+                    if (!rafId) rafId = requestAnimationFrame(tick);
+                });
+            }
+
+            document.addEventListener('pointermove', onMove, { passive: true });
+            window.addEventListener('scroll', () => cards.forEach(c => c.style.setProperty('--active', '0')), { passive: true });
+        })();
     </script>
 
 </body>
